@@ -22,8 +22,13 @@
             "main": "apps/nx-app/src/main.ts",
             "polyfills": "apps/nx-app/src/polyfills.ts",
             "tsConfig": "apps/nx-app/tsconfig.app.json",
-            "assets": ["apps/nx-app/src/favicon.ico", "apps/nx-app/src/assets"],
-            "styles": ["apps/nx-app/src/styles.scss"],
+            "assets": [
+              "apps/nx-app/src/favicon.ico",
+              "apps/nx-app/src/assets"
+            ],
+            "styles": [
+              "apps/nx-app/src/styles.scss"
+            ],
             "scripts": [],
             "es5BrowserSupport": true
           },
@@ -78,7 +83,9 @@
               "apps/nx-app/tsconfig.app.json",
               "apps/nx-app/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -87,6 +94,29 @@
             "jestConfig": "apps/nx-app/jest.config.js",
             "tsConfig": "apps/nx-app/tsconfig.spec.json",
             "setupFile": "apps/nx-app/src/test-setup.ts"
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/nx-app-server",
+            "main": "apps/nx-app/src/main.server.ts",
+            "tsConfig": "apps/nx-app/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/nx-app/src/environments/environment.ts",
+                  "with": "apps/nx-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": {
+                "scripts": false,
+                "styles": true
+              }
+            }
           }
         }
       }
@@ -113,7 +143,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/nx-app-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
