@@ -2,7 +2,123 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "nx-app": {
+      "root": "apps/nx-app/",
+      "sourceRoot": "apps/nx-app/src",
+      "projectType": "application",
+      "prefix": "ssr",
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/nx-app",
+            "index": "apps/nx-app/src/index.html",
+            "main": "apps/nx-app/src/main.ts",
+            "polyfills": "apps/nx-app/src/polyfills.ts",
+            "tsConfig": "apps/nx-app/tsconfig.app.json",
+            "assets": ["apps/nx-app/src/favicon.ico", "apps/nx-app/src/assets"],
+            "styles": ["apps/nx-app/src/styles.scss"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/nx-app/src/environments/environment.ts",
+                  "with": "apps/nx-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "nx-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "nx-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "nx-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/nx-app/tsconfig.app.json",
+              "apps/nx-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/nx-app/jest.config.js",
+            "tsConfig": "apps/nx-app/tsconfig.spec.json",
+            "setupFile": "apps/nx-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "nx-app-e2e": {
+      "root": "apps/nx-app-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/nx-app-e2e/cypress.json",
+            "tsConfig": "apps/nx-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "nx-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nx-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/nx-app-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
@@ -18,5 +134,6 @@
     "@nrwl/schematics:library": {
       "style": "scss"
     }
-  }
+  },
+  "defaultProject": "nx-app"
 }
