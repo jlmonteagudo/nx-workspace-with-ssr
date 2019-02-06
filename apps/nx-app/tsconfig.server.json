@@ -2,7 +2,9 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/nx-app-server/",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "module": "commonjs",
+    "types": ["node"]
   },
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"

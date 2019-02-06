@@ -1,15 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
-
+const distFolder = path.join(process.cwd(), 'dist');
+const appsFolder = path.join(process.cwd(), 'apps');
 module.exports = {
-  entry: {  server: './server.ts' },
+  entry: {
+    server: path.join(appsFolder, 'nx-app', 'server.ts')
+  },
   resolve: { extensions: ['.js', '.ts'] },
   target: 'node',
   mode: 'production',
   // this makes sure we include node_modules and other 3rd party libraries
   externals: [/(node_modules|main\..*\.js)/],
   output: {
-    path: path.join(__dirname, 'dist', 'apps', 'nx-app-server'),
+    path: path.join(distFolder, 'apps', 'nx-app-server'),
     filename: '[name].js'
   },
   module: {
@@ -22,12 +25,12 @@ module.exports = {
     // for "WARNING Critical dependency: the request of a dependency is an expression"
     new webpack.ContextReplacementPlugin(
       /(.+)?angular(\\|\/)core(.+)?/,
-      path.join(__dirname, 'apps', 'nx-app', 'src'), // location of your src
+      path.join(distFolder, 'apps', 'nx-app'), // location of your src
       {} // a map of your routes
     ),
     new webpack.ContextReplacementPlugin(
       /(.+)?express(\\|\/)(.+)?/,
-      path.join(__dirname, 'apps', 'nx-app', 'src'),
+      path.join(distFolder, 'apps', 'nx-app'),
       {}
     )
   ]
