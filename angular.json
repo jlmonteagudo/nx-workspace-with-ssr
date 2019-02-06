@@ -29,8 +29,7 @@
             "styles": [
               "apps/nx-app/src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -99,7 +98,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/nx-app-server",
+            "outputPath": "dist/apps/nx-app-server",
             "main": "apps/nx-app/src/main.server.ts",
             "tsConfig": "apps/nx-app/tsconfig.server.json"
           },

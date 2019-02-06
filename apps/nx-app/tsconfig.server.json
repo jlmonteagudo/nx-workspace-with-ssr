@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/nx-app-server",
+    "outDir": "../../dist/out-tsc/apps/nx-app-server/",
     "baseUrl": "."
   },
   "angularCompilerOptions": {
