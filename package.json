@@ -25,10 +25,10 @@
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "help": "./node_modules/.bin/nx help",
-    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
+    "compile:server": "webpack --config ./apps/nx-app/webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/apps/nx-app-server/server.js",
-    "build:client-and-server-bundles": "ng build --prod && ng run nx-app:server",
-    "webpack:server": "webpack --config apps/nx-app/webpack.server.config.js"
+    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
+    "build:client-and-server-bundles": "ng build --prod && ng run nx-app:server:production"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +46,8 @@
     "@ngrx/router-store": "6.1.2",
     "@ngrx/store": "6.1.2",
     "@nrwl/nx": "7.5.1",
+    "@nguniversal/express-engine": "^7.1.0",
+    "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.4.0",
     "zone.js": "^0.8.26"
@@ -56,8 +58,6 @@
     "@angular/compiler-cli": "^7.0.0",
     "@angular/language-service": "^7.0.0",
     "@ngrx/store-devtools": "6.1.2",
-    "@nguniversal/express-engine": "^7.1.0",
-    "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
     "@nrwl/builders": "7.5.1",
     "@nrwl/schematics": "7.5.1",
     "@types/jasmine": "~2.8.6",

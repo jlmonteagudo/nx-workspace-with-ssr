@@ -22,13 +22,8 @@
             "main": "apps/nx-app/src/main.ts",
             "polyfills": "apps/nx-app/src/polyfills.ts",
             "tsConfig": "apps/nx-app/tsconfig.app.json",
-            "assets": [
-              "apps/nx-app/src/favicon.ico",
-              "apps/nx-app/src/assets"
-            ],
-            "styles": [
-              "apps/nx-app/src/styles.scss"
-            ],
+            "assets": ["apps/nx-app/src/favicon.ico", "apps/nx-app/src/assets"],
+            "styles": ["apps/nx-app/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -82,9 +77,7 @@
               "apps/nx-app/tsconfig.app.json",
               "apps/nx-app/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -111,10 +104,7 @@
                 }
               ],
               "sourceMap": false,
-              "optimization": {
-                "scripts": false,
-                "styles": true
-              }
+              "optimization": true
             }
           }
         }
@@ -142,9 +132,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/nx-app-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

@@ -1,11 +1,9 @@
-// These are important and needed before anything else
 import 'zone.js/dist/zone-node';
-import 'reflect-metadata';
-import { renderModuleFactory } from '@angular/platform-server';
-import { ngExpressEngine } from '@nguniversal/express-engine';
 import { enableProdMode } from '@angular/core';
+// Express Engine
+import { ngExpressEngine } from '@nguniversal/express-engine';
+// Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
-import { readFileSync } from 'fs';
 
 import * as express from 'express';
 import { join } from 'path';
@@ -17,39 +15,42 @@ enableProdMode();
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist', 'apps');
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../dist/apps/nx-app-server/main');
+const DIST_FOLDER = join(process.cwd(), 'dist', 'apps', 'nx-app');
 
-// Our index.html we'll use as our template
-const template = readFileSync(join(DIST_FOLDER, 'nx-app', 'index.html')).toString();
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const {
+  AppServerModuleNgFactory,
+  LAZY_MODULE_MAP
+} = require('../../dist/apps/nx-app-server/main');
 
-app.engine('html', (_, options, callback) => {
-  renderModuleFactory(AppServerModuleNgFactory, {
-    // Our index.html
-    document: template,
-    url: options.req.url,
-    // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
-    extraProviders: [
-      provideModuleMap(LAZY_MODULE_MAP)
-    ]
-  }).then(html => {
-    callback(null, html);
-  });
-});
-
+// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+app.engine(
+  'html',
+  ngExpressEngine({
+    bootstrap: AppServerModuleNgFactory,
+    providers: [provideModuleMap(LAZY_MODULE_MAP)]
+  })
+);
 
 app.set('view engine', 'html');
-app.set('views', join(DIST_FOLDER, 'nx-app'));
+app.set('views', DIST_FOLDER);
 
-// Server static files from /nx-app
-app.get('*.*', express.static(join(DIST_FOLDER, 'nx-app')));
+// Example Express Rest API endpoints
+// app.get('/api/**', (req, res) => { });
+// Serve static files from /browser
+app.get(
+  '*.*',
+  express.static(DIST_FOLDER, {
+    maxAge: '1y'
+  })
+);
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-  res.render(join(DIST_FOLDER, 'nx-app', 'index.html'), { req });
+  res.render('index', { req });
 });
 
 // Start up the Node server
 app.listen(PORT, () => {
-  console.log(`Node server listening on http://localhost:${PORT}`);
+  console.log(`Node Express server listening on http://localhost:${PORT}`);
 });

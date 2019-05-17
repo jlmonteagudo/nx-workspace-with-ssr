@@ -6,7 +6,10 @@ import { NxModule } from '@nrwl/nx';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }), NxModule.forRoot()],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    NxModule.forRoot()
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
